@@ -1,25 +1,24 @@
-#include "rtc.h"
-
+#include "RTC.h"
 
 
 Rtc::Rtc(){
-  Wire.begin();  
+  Wire1.begin(21, 22);  
 }
 
 void Rtc::GetBm8563Time(void){
-  Wire.beginTransmission(0x51);
-  Wire.write(0x02);
-  Wire.endTransmission();
-  Wire.requestFrom(0x51,7); 
-  while(Wire.available()){
+  Wire1.beginTransmission(0x51);
+  Wire1.write(0x02);
+  Wire1.endTransmission();
+  Wire1.requestFrom(0x51,7); 
+  while(Wire1.available()){
     
-      trdata[0] = Wire.read();
-      trdata[1] = Wire.read();
-      trdata[2] = Wire.read();
-      trdata[3] = Wire.read();
-      trdata[4] = Wire.read();
-      trdata[5] = Wire.read();
-      trdata[6] = Wire.read();
+      trdata[0] = Wire1.read();
+      trdata[1] = Wire1.read();
+      trdata[2] = Wire1.read();
+      trdata[3] = Wire1.read();
+      trdata[4] = Wire1.read();
+      trdata[5] = Wire1.read();
+      trdata[6] = Wire1.read();
      
   }
 

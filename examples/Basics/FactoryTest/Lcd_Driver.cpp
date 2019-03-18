@@ -2,7 +2,7 @@
 
 
 //#include "stm32f10x.h"
-#include "LCD_Driver.h"
+#include "Lcd_Driver.h"
 #include "LCD_Config.h"
 //#include "delay.h"
  #include<inttypes.h>

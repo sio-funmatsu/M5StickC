@@ -1,13 +1,11 @@
 #include <Arduino.h>
 #include <Wire.h>
 #include <WiFi.h>
+#include "M5StickC.h"
 
-
-#include "AXP192.h"
-#include "LCD_Driver.h"
+#include "Lcd_Driver.h"
 #include "LCD_Config.h"
 #include "IMU.h"
-#include "RTC.h"
 #include "esp32_rmt.h"
 #include "DHT12.h"
 
@@ -15,18 +13,11 @@
 #define PIN_CLK  0
 #define PIN_DATA 34
 #define READ_LEN (2 * 1024)
-uint8_t BUFFER[READ_LEN] = {0};
+#define rtc M5.Rtc
 
-AXP192 axp192;
-Rtc  rtc;
+uint8_t BUFFER[READ_LEN] = {0};
 ESP32_RMT rem;
 DHT12 dht12;  
-
-int LED_RI = 9;
-int LED_BUILTIN = 10;
-int BUTTON_HOME = 37;
-int BUTTON_PIN = 39;
-
 
 int IO_1 = 0;
 int IO_2 = 26;
@@ -49,37 +40,18 @@ void reader(void *pvParameters) {
 	    vTaskDelay(100 / portTICK_RATE_MS);
 	}
 }
+
 void i2sInit()
 {
    i2s_config_t i2s_config = {
-    //.mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_TX| I2S_MODE_RX | I2S_MODE_ADC_BUILT_IN),
     .mode = (i2s_mode_t)(I2S_MODE_MASTER | I2S_MODE_RX | I2S_MODE_PDM),
-    //.sample_rate =  I2S_SAMPLE_RATE,              // The format of the signal using ADC_BUILT_IN
     .sample_rate =  44100,
     .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT, // is fixed at 12bit, stereo, MSB
-    //.bits_per_sample = I2S_BITS_PER_SAMPLE_8BIT, 
-    //.channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
-    //.channel_format = I2S_CHANNEL_FMT_ONLY_RIGHT,
-     .channel_format = I2S_CHANNEL_FMT_ALL_RIGHT,
-      //.channel_format = I2S_CHANNEL_FMT_ALL_LEFT,
-    //.channel_format = I2S_CHANNEL_FMT_ONLY_LEFT,
-/*
-      I2S_CHANNEL_FMT_RIGHT_LEFT = 0x00,
-    I2S_CHANNEL_FMT_ALL_RIGHT,
-    I2S_CHANNEL_FMT_ALL_LEFT,
-    I2S_CHANNEL_FMT_ONLY_RIGHT,
-    I2S_CHANNEL_FMT_ONLY_LEFT,*/
-    //.communication_format = I2S_COMM_FORMAT_I2S_MSB,
-    //I2S_COMM_FORMAT_PCM_SHORT
+    .channel_format = I2S_CHANNEL_FMT_ALL_RIGHT,
     .communication_format = I2S_COMM_FORMAT_I2S,
-    //I2S_COMM_FORMAT_I2S 
-    //.communication_format = I2S_COMM_FORMAT_PCM,
     .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
     .dma_buf_count = 2,
     .dma_buf_len = 128,
-   // .use_apll = false,
-    //.tx_desc_auto_clear = false,
-    //.fixed_mclk = 0
    };
 
     i2s_pin_config_t pin_config;
@@ -99,6 +71,7 @@ void i2sInit()
 
 uint16_t oldx[80];
 uint16_t oldy[80];
+
 void showSignal()
 {
   int n;
@@ -282,57 +255,56 @@ void rtc_test() {
 
 void setup() {
   // put your setup code here, to run once:
-  Wire.begin();
-  //Wire1.begin();
-  Serial.begin(115200);
+  // Serial.begin(115200);
 
-  //power
-  axp192.Init();
-   
-  //lcd
-  Lcd_Init();
-  Lcd_pic(gImage_001);
-  delay(1000);
-  Lcd_Clear(WHITE);
-  delay(50);
-  Lcd_Clear(BLUE);
-  delay(50);
-  Lcd_Clear(RED);
-  delay(50);
-  Lcd_Clear(GREEN);
-  delay(50);
-  Lcd_Clear(YELLOW);
-  delay(50);
+  // //lcd
+  // Lcd_Init();
+  // Lcd_pic(gImage_001);
+  // delay(1000);
+  // Lcd_Clear(WHITE);
+  // delay(50);
+  // Lcd_Clear(BLUE);
+  // delay(50);
+  // Lcd_Clear(RED);
+  // delay(50);
+  // Lcd_Clear(GREEN);
+  // delay(50);
+  // Lcd_Clear(YELLOW);
+  // delay(50);
 
-  Lcd_Clear(WHITE);
-  wifi_test();
-  Lcd_Clear(WHITE);
-  Lcd_Asc(8,0,"M5StickC");
+  // Lcd_Clear(WHITE);
+  // wifi_test();
+  // Lcd_Clear(WHITE);
+  // Lcd_Asc(8,0,"M5StickC");
 
-  //!sh200i
-  sh200i_init();
-  //Lcd_Asc(0,20,"my name is");
+  while(1){
+    /* code */
+  }
+  
+  // //!sh200i
+  // sh200i_init();
+  // //Lcd_Asc(0,20,"my name is");
 
-  //!IR
-  rem.begin(LED_RI,1);
+  // //!IR
+  // rem.begin(LED_RI,1);
 
-  pinMode(LED_BUILTIN, OUTPUT);
-  digitalWrite(LED_BUILTIN, HIGH);
+  // pinMode(LED, OUTPUT);
+  // digitalWrite(LED, HIGH);
 
-  pinMode(IO_1, OUTPUT);
-  digitalWrite(IO_1, HIGH);
+  // pinMode(IO_1, OUTPUT);
+  // digitalWrite(IO_1, HIGH);
 
-  pinMode(IO_2, OUTPUT);
-  digitalWrite(IO_2, HIGH);
+  // pinMode(IO_2, OUTPUT);
+  // digitalWrite(IO_2, HIGH);
 
-  pinMode(IO_3, OUTPUT);
-  digitalWrite(IO_3, LOW);
+  // pinMode(IO_3, OUTPUT);
+  // digitalWrite(IO_3, LOW);
 
 
-  pinMode(BUTTON_HOME, INPUT);
-  pinMode(BUTTON_PIN, INPUT);
+  // pinMode(BUTTON_HOME, INPUT);
+  // pinMode(BUTTON_PIN, INPUT);
 
-  spm_test();
+  // spm_test();
 }
 
 bool test_led = 0;
@@ -344,7 +316,7 @@ void loop() {
   loopTime = millis();
   //startTime = loopTime;
 #if 1
-  if(digitalRead(BUTTON_HOME) == LOW){
+  if(digitalRead(M5BUTTON_HOME) == LOW){
     led_count++;
     
     //if(led_count >= 15);
@@ -352,13 +324,13 @@ void loop() {
     //while(digitalRead(BUTTON_HOME) == LOW);
   }
 
-  if(digitalRead(BUTTON_PIN) == LOW){
+  if(digitalRead(M5BUTTON_PIN) == LOW){
     //Lcd_Asc(0,140,"Kpin ok!");
     led = !led;
     rem.necSend(0x3000, 0xfd02);
-    while(digitalRead(BUTTON_PIN) == LOW);
+    while(digitalRead(M5BUTTON_PIN) == LOW);
   }
-  digitalWrite(LED_BUILTIN, led);
+  digitalWrite(M5LED, led);
 
   //io test
   digitalWrite(IO_1, test_led);
@@ -387,6 +359,6 @@ void loop() {
   */
   }
 
-  axp192.ScreenBreath(led_count / 200);
+  M5.Axp.ScreenBreath(led_count / 200);
     //delay(1000);
 }

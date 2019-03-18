@@ -34,7 +34,7 @@ class M5StickC {
     //ESP32_RMT rem;
 
     //!RTC
-     RTC  Rtc;
+    RTC  Rtc;
 
  private:
     bool isInited;
