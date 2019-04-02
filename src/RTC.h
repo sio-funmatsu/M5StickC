@@ -5,61 +5,57 @@
 
 typedef struct
 {
-  uint8_t Hours;
-  uint8_t Minutes;
-  uint8_t Seconds;
-}RTC_TimeTypeDef;
-
+    uint8_t Hour;
+    uint8_t Minute;
+    uint8_t Second;
+} RTC_Time;
 
 typedef struct
 {
-  uint8_t WeekDay;
-  uint8_t Month;
-  uint8_t Date;
-  uint16_t Year;
-}RTC_DateTypeDef;
+    uint8_t WeekDay;
+    uint8_t Month;
+    uint8_t Date;
+    uint16_t Year;
+} RTC_Date;
 
-class RTC { 
-public:
-  RTC();
-  void GetBm8563Time(void);
+class RTC
+{
+  public:
+    RTC();
+    void getBm8563Time(void);
 
-  void SetTime(RTC_TimeTypeDef* RTC_TimeStruct);
-  void SetData(RTC_DateTypeDef* RTC_DateStruct);
+    void setTime(RTC_Time *RTC_time);
+    void setData(RTC_Date *RTC_date);ß
 
-  void GetTime(RTC_TimeTypeDef* RTC_TimeStruct);
-  void GetData(RTC_DateTypeDef* RTC_DateStruct);
-  
-public:
-  uint8_t Second;
-  uint8_t Minute;
-  uint8_t Hour;
-  uint8_t Week;
-  uint8_t Day;
-  uint8_t Month;
-  uint8_t  Year;
-  uint8_t DateString[9];
-  uint8_t TimeString[9];
+    void getTime(RTC_Time *RTC_time);
+    void getData(RTC_Date *RTC_date);
 
-  uint8_t asc[14];
+  public:
+    uint8_t Second;
+    uint8_t Minute;
+    uint8_t Hour;
+    uint8_t Week;
+    uint8_t Day;
+    uint8_t Month;
+    uint8_t Year;
+    uint8_t DateString[9];
+    uint8_t TimeString[9];
 
-  
-private:
-  void Bcd2asc(void);
-  void DataMask();
-  void Str2Time(void);
+    uint8_t asc[14];
 
+  private:
+    void bcd2asc(void);
+    void dataMask();
+    void str2Time(void);
 
-  uint8_t Bcd2ToByte(uint8_t Value);
-  uint8_t ByteToBcd2(uint8_t Value);
-   
-private:
+    uint8_t bcd2ToByte(uint8_t Value);
+    uint8_t byteToBcd2(uint8_t Value);
 
-  /*定义数组用来存储读取的时间数据 */
-  uint8_t trdata[7]; 
-  /*定义数组用来存储转换的 asc 码时间数据*/
-  //uint8_t asc[14]; 
-
+  private:
+    /*定义数组用来存储读取的时间数据 */
+    uint8_t trdata[7];
+    /*定义数组用来存储转换的 asc 码时间数据*/
+    // uint8_t asc[14];
 };
 
 #endif

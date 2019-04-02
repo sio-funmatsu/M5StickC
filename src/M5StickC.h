@@ -16,11 +16,12 @@
 #include "RTC.h"
 #include "IMU.h"
 
-class M5StickC {
+class M5StickC
+{
 
- public:
+  public:
     M5StickC();
-	void begin(bool LCDEnable=true, bool PowerEnable=true, bool SerialEnable=true);
+    void begin(bool LCDEnable = true, bool PowerEnable = true, bool SerialEnable = true);
 
     //!LCD
     M5Display Lcd = M5Display();
@@ -32,15 +33,14 @@ class M5StickC {
     //ESP32_RMT rem;
 
     //!RTC
-     RTC  Rtc;
+    RTC Rtc;
 
-     IMU Imu;
+    IMU Imu;
 
- private:
+  private:
     bool isInited;
     //uint8_t _wakeupPin;
 };
-
 
 extern M5StickC M5;
 #define m5 M5
@@ -50,7 +50,7 @@ extern M5StickC M5;
 #define IMU Imu
 
 #else
-#error “This library only supports boards with ESP32 processor.”	
+#error “This library only supports boards with ESP32 processor.”
 #endif
 
 #endif

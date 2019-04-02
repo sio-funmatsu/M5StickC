@@ -4,37 +4,36 @@
 #include <Wire.h>
 #include <Arduino.h>
 
-class AXP192 {
-public:
-  AXP192();
-  void  begin(void);
-  void  ScreenBreath(uint8_t brightness);
-  
-  void  EnableCoulombcounter(void);
-  void  DisableCoulombcounter(void);
-  void  StopCoulombcounter(void);
-  void  ClearCoulombcounter(void);
-  
- 
-  uint32_t GetCoulombchargeData(void);
-  uint32_t GetCoulombdischargeData(void);
-  float GetCoulombData(void);
+class AXP192
+{
+  public:
+    AXP192();
+    void begin(void);
+    void screenBreath(uint8_t brightness);
 
-  uint16_t GetVbatData(void);
+    void enableCoulombcounter(void);
+    void disableCoulombcounter(void);
+    void stopCoulombcounter(void);
+    void clearCoulombcounter(void);
 
+    uint32_t getCoulombchargeData(void);
+    uint32_t getCoulombdischargeData(void);
+    float getCoulombData(void);
 
-  uint16_t GetIchargeData(void);
-  uint16_t GetIdischargeData(void);
+    uint16_t getVbatData(void);
 
-  uint16_t GetTempData(void);
+    uint16_t getIchargeData(void);
+    uint16_t getIdischargeData(void);
 
-  uint32_t GetPowerbatData(void);
+    uint16_t getTempData(void);
 
-  uint16_t GetVinData(void);
-  uint16_t GetIinData(void);
-public:
-private:
-   
-}; 
+    uint32_t getPowerbatData(void);
+
+    uint16_t getVinData(void);
+    uint16_t getIinData(void);
+
+  public:
+  private:
+};
 
 #endif
